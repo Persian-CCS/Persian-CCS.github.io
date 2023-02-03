@@ -1,3 +1,4 @@
 user-agent: *
 user-agent: Googlebot
 Disallow: /sale
+Disallow: /report
