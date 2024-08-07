@@ -1,4 +1,2 @@
-socks://aUJuYXY6S3JvT0NJeDNSRktFc3RLVg==@2.187.6.32:6060#Office
-socks://aUJuYXY6S3JvT0NJeDNSRktFc3RLVg==@192.168.1.111:6060#Office Local
-socks://Og==@192.168.1.113:10808#Local+Ps
-socks://Og==@2.187.6.32:6070#Office+Ps
+socks://Og==@2.187.6.32:6060#Office
+socks://Og==@192.168.1.106:2080#Office Local
