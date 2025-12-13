@@ -1,0 +1,17 @@
+name = "ccs-resalat-api"
+compatibility_date = "2025-12-12"
+main = "worker.js"
+
+[[d1_databases]]
+binding = "ccs_resalat_db"
+database_name = "ccs-resalat-db"
+database_id = "64d6257b-36c2-4c17-81ba-399a7d70780a"
+
+[vars]
+API_TOKEN = "e99a18c428cb38d5f260853678922e03"
+ADMIN_PASSWORD_HASH = "8f3c7b2e1a6d5c4b9a8f7e6d5c4b3a2f1"
+
+[build]
+upload.format = "service-worker"
+
+

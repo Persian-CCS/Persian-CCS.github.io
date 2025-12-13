@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود - سیستم مدیریت درخواست‌ها</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- در head فایل index.html -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- کتابخانه‌های تاریخ شمسی دقیق -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.10.1/build/moment-jalaali.js"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div
+                style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                <i class="fas fa-lock" style="font-size: 24px; color: white;"></i>
+            </div>
+            <h1>سیستم مدیریت درخواست‌ها</h1>
+            <p>ورود به پنل مدیریت</p>
+        </div>
+
+        <form id="loginForm" class="form-container">
+            <div class="form-group">
+                <label for="password"><i class="fas fa-key" style="margin-left: 6px;"></i> رمز عبور</label>
+                <input type="password" id="password" class="form-control" placeholder="رمز عبور را وارد کنید" required>
+                <small style="display: block; margin-top: 5px; color: var(--gray); font-size: 11px;">رمز: مدیر </small></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+                <i class="fas fa-sign-in-alt" style="margin-left: 6px;"></i> ورود
+            </button>
+        </form>
+
+        <div id="message"
+            style="color: var(--danger); margin-top: 15px; text-align: center; font-size: 11px; padding: 8px; background: #ffebee; border-radius: 4px; border: 1px solid #ffcdd2; display: none;">
+        </div>
+
+        <div
+            style="margin-top: 20px; text-align: center; color: var(--gray); font-size: 11px; border-top: 1px solid var(--border); padding-top: 15px;">
+            <p> 1404 PersianCCS 2.0v </p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+
+            const messageDiv = document.getElementById('message');
+
+            // ارسال درخواست به API برای بررسی رمز عبور
+            fetch('https://ccs-resalat-api.persian-ccs.workers.dev/api?action=login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ password: password })
+            })
+                .then(response => {
+                    if (response.status === 401) {
+                        return { success: false, message: 'رمز عبور اشتباه است' };
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('isAuthenticated', 'true');
+                        localStorage.setItem('loginTime', new Date().toISOString());
+                        localStorage.setItem('api_token', data.token);
+
+                        messageDiv.innerHTML = '<i class="fas fa-check-circle" style="margin-left: 5px;"></i> در حال ورود...';
+                        messageDiv.style.color = 'var(--success)';
+                        messageDiv.style.background = '#e8f5e9';
+                        messageDiv.style.border = '1px solid #c8e6c9';
+                        messageDiv.style.display = 'block';
+
+                        setTimeout(() => {
+                            window.location.href = 'RequestResult.html';
+                        }, 800);
+                    } else {
+                        messageDiv.innerHTML = '<i class="fas fa-exclamation-circle" style="margin-left: 5px;"></i> ' + (data.message || 'خطا در ورود');
+                        messageDiv.style.color = 'var(--danger)';
+                        messageDiv.style.background = '#ffebee';
+                        messageDiv.style.border = '1px solid #ffcdd2';
+                        messageDiv.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    messageDiv.innerHTML = '<i class="fas fa-exclamation-circle" style="margin-left: 5px;"></i> خطا در ارتباط با سرور';
+                    messageDiv.style.color = 'var(--danger)';
+                    messageDiv.style.background = '#ffebee';
+                    messageDiv.style.border = '1px solid #ffcdd2';
+                    messageDiv.style.display = 'block';
+                });
+        });
+
+        if (localStorage.getItem('isAuthenticated') === 'true') {
+            window.location.href = 'RequestResult.html';
+        }
+    </script>
+</body>
+
+</html>

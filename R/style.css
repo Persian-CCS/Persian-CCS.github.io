@@ -1,0 +1,599 @@
+/* Import Vazirmatn font */
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+/* Import Sahel font (فونت فارسی بهتر) */
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
+
+:root {
+    --primary: #1a237e;
+    --secondary: #283593;
+    --success: #2e7d32;
+    --warning: #f57c00;
+    --danger: #c62828;
+    --light: #f5f7fa;
+    --dark: #1a237e;
+    --gray: #546e7a;
+    --border: #e0e0e0;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Sahel', Vazirmatn, sans-serif; /* اضافه کردن فونت ساحل */
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+    color: #333;
+    line-height: 1.6;
+    font-size: 14px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+/* استایل هدر */
+.header {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.header p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+/* استایل فرم‌ها */
+.form-container {
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #fafafa;
+    font-family: 'Sahel', sans-serif;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+    background: white;
+}
+
+/* بهبود نمایش select */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 15px center;
+    background-size: 16px;
+    padding-right: 15px;
+    padding-left: 40px;
+    cursor: pointer;
+}
+
+.btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Sahel', sans-serif;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    box-shadow: 0 4px 6px rgba(26, 35, 126, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(26, 35, 126, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(90deg, var(--success) 0%, #4caf50 100%);
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(90deg, var(--warning) 0%, #ff9800 100%);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(90deg, var(--danger) 0%, #f44336 100%);
+    color: white;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/* استایل جدول */
+.table-container {
+    overflow: hidden;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background: #f8f9fa;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-header h2 {
+    font-size: 18px;
+    color: var(--dark);
+    font-weight: 700;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+thead {
+    background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+th {
+    padding: 18px 15px;
+    text-align: right;
+    font-weight: 700;
+    color: var(--dark);
+    border-bottom: 2px solid var(--border);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 16px 15px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+    color: var(--gray);
+}
+
+tbody tr {
+    transition: all 0.2s ease;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
+    transform: translateX(-5px);
+}
+
+/* استایل وضعیت‌ها */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+    min-width: 140px;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+.status-collecting {
+    background: linear-gradient(90deg, #fff3e0 0%, #ffe0b2 100%);
+    color: #e65100;
+    border: 1px solid #ffb74d;
+}
+
+.status-processing {
+    background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%);
+    color: #1565c0;
+    border: 1px solid #64b5f6;
+}
+
+.status-completed {
+    background: linear-gradient(90deg, #e8f5e9 0%, #c8e6c9 100%);
+    color: #2e7d32;
+    border: 1px solid #81c784;
+}
+
+/* صفحه‌بندی */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 25px 0;
+    gap: 5px;
+}
+
+.page-item {
+    margin: 0 2px;
+}
+
+.page-link {
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    font-weight: 600;
+    background: white;
+    cursor: pointer;
+}
+
+.page-link:hover {
+    background: var(--light);
+    border-color: var(--primary);
+}
+
+.active .page-link {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* نوار کناری */
+.sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 260px;
+    background: white;
+    padding: 0;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    border-left: 1px solid var(--border);
+    z-index: 1000;
+}
+
+.sidebar-header {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    padding: 30px 25px;
+    text-align: center;
+    color: white;
+}
+
+.sidebar-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding: 25px 0;
+}
+
+.sidebar-nav li {
+    margin-bottom: 5px;
+}
+
+.sidebar-nav a {
+    color: var(--gray);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    font-weight: 600;
+    border-right: 4px solid transparent;
+}
+
+.sidebar-nav a:hover {
+    background: #f8f9fa;
+    color: var(--primary);
+    border-right-color: var(--primary);
+}
+
+.sidebar-nav a i {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.main-content {
+    margin-right: 280px;
+    padding: 20px;
+}
+
+/* صفحه ورود */
+.login-container {
+    max-width: 420px;
+    margin: 80px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.login-header {
+    margin-bottom: 35px;
+}
+
+.login-header h1 {
+    color: var(--primary);
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.login-header p {
+    color: var(--gray);
+    font-size: 13px;
+}
+
+/* صفحه نمایش عمومی */
+.public-container {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin: 40px auto;
+    max-width: 1400px;
+}
+
+.public-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid var(--light);
+}
+
+.public-header h1 {
+    color: var(--primary);
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.public-header p {
+    color: var(--gray);
+    font-size: 14px;
+}
+
+/* لیست اکسل مانند برای نمایش عمومی */
+.excel-like-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border);
+}
+
+.excel-header {
+    background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.excel-header h2 {
+    font-size: 16px;
+    color: var(--dark);
+    font-weight: 700;
+}
+
+.excel-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.excel-table thead {
+    background: #f1f5f9;
+}
+
+.excel-table th {
+    padding: 16px 12px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--dark);
+    border-bottom: 2px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.excel-table td {
+    padding: 14px 12px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.excel-table tr:hover {
+    background: #f8fafc;
+}
+
+.excel-table th:first-child,
+.excel-table td:first-child {
+    border-right: none;
+}
+
+/* کارت‌های اطلاعات */
+.info-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.info-card h3 {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.info-card .count {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+}
+
+/* اضافه کردن برای نمایش اعداد فارسی */
+.persian-numbers {
+    font-family: 'Sahel', sans-serif;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+/* بهبود نمایش تاریخ و زمان */
+#currentDate, #currentTime, #lastUpdateTime, #systemUpdateTime {
+    font-family: 'Sahel', sans-serif;
+    font-weight: 600;
+}
+
+/* رسپانسیو */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+    
+    .main-content {
+        margin-right: 260px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        border: none;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .main-content {
+        margin-right: 0;
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    .form-container {
+        padding: 25px;
+    }
+    
+    body {
+        font-size: 13px;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+}
+
+/* انیمیشن‌ها */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* اسکرول‌بار سفارشی */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
+}
