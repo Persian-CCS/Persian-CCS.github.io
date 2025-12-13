@@ -14,13 +14,16 @@
     --gray: #546e7a;
     --border: #e0e0e0;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --mobile-breakpoint: 768px;
+    --mobile-padding: 15px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Sahel', Vazirmatn, sans-serif; /* اضافه کردن فونت ساحل */
+    font-family: 'Sahel', Vazirmatn, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -29,12 +32,24 @@ body {
     line-height: 1.6;
     font-size: 14px;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 25px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--mobile-padding);
+        max-width: 100%;
+    }
+    
+    body {
+        font-size: 13px;
+    }
 }
 
 /* استایل هدر */
@@ -48,6 +63,26 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .header h1 {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+    
+    .header p {
+        font-size: 12px;
+    }
 }
 
 .header h1 {
@@ -72,8 +107,21 @@ body {
     border: 1px solid var(--border);
 }
 
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+}
+
 .form-group {
     margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        margin-bottom: 15px;
+    }
 }
 
 .form-group label {
@@ -86,6 +134,13 @@ body {
     letter-spacing: 0.5px;
 }
 
+@media (max-width: 768px) {
+    .form-group label {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+}
+
 .form-control {
     width: 100%;
     padding: 12px 15px;
@@ -95,6 +150,13 @@ body {
     transition: all 0.3s ease;
     background: #fafafa;
     font-family: 'Sahel', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .form-control {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
 }
 
 .form-control:focus {
@@ -116,6 +178,14 @@ select.form-control {
     cursor: pointer;
 }
 
+@media (max-width: 768px) {
+    select.form-control {
+        background-position: left 12px center;
+        padding-left: 35px;
+        padding-right: 10px;
+    }
+}
+
 .btn {
     padding: 12px 28px;
     border: none;
@@ -127,6 +197,16 @@ select.form-control {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-family: 'Sahel', sans-serif;
+    touch-action: manipulation;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: 12px;
+        min-height: 44px;
+        min-width: 44px;
+    }
 }
 
 .btn-primary {
@@ -135,7 +215,7 @@ select.form-control {
     box-shadow: 0 4px 6px rgba(26, 35, 126, 0.2);
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:active {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(26, 35, 126, 0.3);
 }
@@ -160,6 +240,14 @@ select.form-control {
     font-size: 12px;
 }
 
+@media (max-width: 768px) {
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 11px;
+        min-height: 36px;
+    }
+}
+
 /* استایل جدول */
 .table-container {
     overflow: hidden;
@@ -167,6 +255,15 @@ select.form-control {
     border-radius: 12px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .table-container {
+        border-radius: 8px;
+        margin: 0 -15px;
+        width: calc(100% + 30px);
+    }
 }
 
 .table-header {
@@ -178,16 +275,38 @@ select.form-control {
     border-bottom: 1px solid var(--border);
 }
 
+@media (max-width: 768px) {
+    .table-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+        padding: 15px;
+    }
+}
+
 .table-header h2 {
     font-size: 18px;
     color: var(--dark);
     font-weight: 700;
 }
 
+@media (max-width: 768px) {
+    .table-header h2 {
+        font-size: 16px;
+    }
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
+    min-width: 600px;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 12px;
+    }
 }
 
 thead {
@@ -203,6 +322,14 @@ th {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    th {
+        padding: 12px 10px;
+        font-size: 11px;
+    }
 }
 
 td {
@@ -210,6 +337,14 @@ td {
     text-align: right;
     border-bottom: 1px solid var(--border);
     color: var(--gray);
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    td {
+        padding: 12px 10px;
+        font-size: 11px;
+    }
 }
 
 tbody tr {
@@ -219,6 +354,12 @@ tbody tr {
 tbody tr:hover {
     background: #f8f9fa;
     transform: translateX(-5px);
+}
+
+@media (hover: none) {
+    tbody tr:hover {
+        transform: none;
+    }
 }
 
 /* استایل وضعیت‌ها */
@@ -231,6 +372,14 @@ tbody tr:hover {
     min-width: 140px;
     text-align: center;
     letter-spacing: 0.3px;
+}
+
+@media (max-width: 768px) {
+    .status-badge {
+        min-width: 120px;
+        padding: 5px 10px;
+        font-size: 11px;
+    }
 }
 
 .status-collecting {
@@ -258,6 +407,14 @@ tbody tr:hover {
     list-style: none;
     margin: 25px 0;
     gap: 5px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .pagination {
+        margin: 15px 0;
+        gap: 3px;
+    }
 }
 
 .page-item {
@@ -275,6 +432,20 @@ tbody tr:hover {
     font-weight: 600;
     background: white;
     cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .page-link {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: 36px;
+        min-height: 36px;
+    }
 }
 
 .page-link:hover {
@@ -300,6 +471,26 @@ tbody tr:hover {
     box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
     border-left: 1px solid var(--border);
     z-index: 1000;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        height: auto;
+        width: 100%;
+        max-height: 60vh;
+        border-top: 1px solid var(--border);
+        border-left: none;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+    
+    .sidebar.active {
+        display: block;
+    }
 }
 
 .sidebar-header {
@@ -307,6 +498,20 @@ tbody tr:hover {
     padding: 30px 25px;
     text-align: center;
     color: white;
+}
+
+@media (max-width: 768px) {
+    .sidebar-header {
+        padding: 20px 15px;
+    }
+    
+    .sidebar-header h2 {
+        font-size: 16px;
+    }
+    
+    .sidebar-header p {
+        font-size: 11px;
+    }
 }
 
 .sidebar-header h2 {
@@ -325,6 +530,14 @@ tbody tr:hover {
     padding: 25px 0;
 }
 
+@media (max-width: 768px) {
+    .sidebar-nav {
+        padding: 15px 0;
+        max-height: calc(60vh - 150px);
+        overflow-y: auto;
+    }
+}
+
 .sidebar-nav li {
     margin-bottom: 5px;
 }
@@ -339,9 +552,17 @@ tbody tr:hover {
     font-size: 13px;
     font-weight: 600;
     border-right: 4px solid transparent;
+    min-height: 44px;
 }
 
-.sidebar-nav a:hover {
+@media (max-width: 768px) {
+    .sidebar-nav a {
+        padding: 12px 20px;
+        font-size: 12px;
+    }
+}
+
+.sidebar-nav a:hover, .sidebar-nav a:active {
     background: #f8f9fa;
     color: var(--primary);
     border-right-color: var(--primary);
@@ -357,6 +578,14 @@ tbody tr:hover {
     padding: 20px;
 }
 
+@media (max-width: 768px) {
+    .main-content {
+        margin-right: 0;
+        padding: 15px;
+        margin-bottom: 70px;
+    }
+}
+
 /* صفحه ورود */
 .login-container {
     max-width: 420px;
@@ -369,8 +598,31 @@ tbody tr:hover {
     text-align: center;
 }
 
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+        margin: 40px auto;
+        padding: 25px 20px;
+        border-radius: 12px;
+    }
+}
+
 .login-header {
     margin-bottom: 35px;
+}
+
+@media (max-width: 768px) {
+    .login-header {
+        margin-bottom: 25px;
+    }
+    
+    .login-header h1 {
+        font-size: 20px;
+    }
+    
+    .login-header p {
+        font-size: 12px;
+    }
 }
 
 .login-header h1 {
@@ -396,11 +648,34 @@ tbody tr:hover {
     max-width: 1400px;
 }
 
+@media (max-width: 768px) {
+    .public-container {
+        padding: 20px 15px;
+        margin: 20px auto;
+        border-radius: 12px;
+    }
+}
+
 .public-header {
     text-align: center;
     margin-bottom: 40px;
     padding-bottom: 25px;
     border-bottom: 2px solid var(--light);
+}
+
+@media (max-width: 768px) {
+    .public-header {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+    }
+    
+    .public-header h1 {
+        font-size: 20px;
+    }
+    
+    .public-header p {
+        font-size: 12px;
+    }
 }
 
 .public-header h1 {
@@ -422,12 +697,31 @@ tbody tr:hover {
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border);
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .excel-like-table {
+        border-radius: 8px;
+        margin: 0 -15px;
+        width: calc(100% + 30px);
+    }
 }
 
 .excel-header {
     background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
     padding: 20px;
     border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+    .excel-header {
+        padding: 15px;
+    }
+    
+    .excel-header h2 {
+        font-size: 16px;
+    }
 }
 
 .excel-header h2 {
@@ -439,6 +733,7 @@ tbody tr:hover {
 .excel-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 800px;
 }
 
 .excel-table thead {
@@ -454,6 +749,14 @@ tbody tr:hover {
     border-right: 1px solid #e2e8f0;
     font-size: 12px;
     text-transform: uppercase;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .excel-table th {
+        padding: 12px 8px;
+        font-size: 11px;
+    }
 }
 
 .excel-table td {
@@ -463,6 +766,14 @@ tbody tr:hover {
     border-right: 1px solid #e2e8f0;
     color: var(--gray);
     font-size: 13px;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .excel-table td {
+        padding: 10px 8px;
+        font-size: 11px;
+    }
 }
 
 .excel-table tr:hover {
@@ -485,9 +796,30 @@ tbody tr:hover {
     transition: all 0.3s ease;
 }
 
+@media (max-width: 768px) {
+    .info-card {
+        padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .info-card h3 {
+        font-size: 12px;
+    }
+    
+    .info-card .count {
+        font-size: 24px;
+    }
+}
+
 .info-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+@media (hover: none) {
+    .info-card:hover {
+        transform: none;
+    }
 }
 
 .info-card h3 {
@@ -517,65 +849,110 @@ tbody tr:hover {
     font-weight: 600;
 }
 
-/* رسپانسیو */
-@media (max-width: 1024px) {
-    .sidebar {
-        width: 240px;
-    }
-    
-    .main-content {
-        margin-right: 260px;
-    }
+/* موبایل منو دکمه */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    touch-action: manipulation;
 }
 
 @media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex;
+    }
+}
+
+/* فوت موبایل */
+.mobile-footer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 10px 15px;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .mobile-footer {
+        display: block;
+    }
+}
+
+.mobile-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-footer-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+
+/* بهبود فرم‌های موبایل */
+@media (max-width: 768px) {
+    .simple-date-input {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .simple-date-input select {
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    input[type="text"], 
+    input[type="password"], 
+    input[type="number"] {
+        font-size: 16px !important;
+    }
+}
+
+/* حالت لنداسکیپ موبایل */
+@media (max-width: 768px) and (orientation: landscape) {
     .sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        box-shadow: none;
-        border: none;
-        border-bottom: 1px solid var(--border);
+        max-height: 80vh;
     }
     
-    .main-content {
-        margin-right: 0;
-        padding: 15px;
-    }
-    
-    .container {
-        padding: 15px;
-    }
-    
-    .form-container {
-        padding: 25px;
-    }
-    
-    body {
-        font-size: 13px;
-    }
-    
-    .table-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
+    .sidebar-nav {
+        max-height: calc(80vh - 150px);
     }
 }
 
-/* انیمیشن‌ها */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+/* پشتیبانی از notch و safe areas */
+@supports (padding: max(0px)) {
+    body, .container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .mobile-footer {
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
     }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease-out;
+    
+    .mobile-menu-btn {
+        bottom: max(20px, env(safe-area-inset-bottom) + 10px);
+    }
 }
 
 /* اسکرول‌بار سفارشی */
@@ -596,4 +973,66 @@ tbody tr:hover {
 
 ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
+}
+
+/* انیمیشن‌ها */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* سوئیپ برای موبایل */
+.touch-swipe {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+
+.touch-swipe > * {
+    scroll-snap-align: start;
+}
+
+/* بهینه‌سازی کلیک‌ها برای موبایل */
+a, button, input[type="button"], input[type="submit"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* بهبود نمایش فونت‌ها در موبایل */
+@media (max-width: 768px) {
+    * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* سازگاری با iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    body {
+        min-height: -webkit-fill-available;
+    }
 }
