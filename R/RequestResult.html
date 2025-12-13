@@ -234,7 +234,7 @@
             <div
                 style="display: flex; align-items: center; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 12px;">
                 <i class="fas fa-database" style="margin-left: 8px;"></i>
-                متصل به  D1
+                متصل به Database
             </div>
         </div>
     </div>
@@ -246,7 +246,7 @@
                     <h1><i class="fas fa-file-alt" style="margin-left: 10px;"></i> مدیریت درخواست‌ها</h1>
                     <p>سامانه پیگیری و مدیریت درخواست‌های بانک رسالت - ذخیره شده در D1</p>
                     <div id="syncStatus" class="sync-status online" style="display: inline-block; margin-top: 10px;">
-                        <i class="fas fa-database"></i> <span id="statusText">آنلاین - متصل به پایگاه داده</span>
+                        <span id="statusText">آنلاین - متصل به پایگاه داده</span>
                     </div>
                 </div>
                 <div class="header-time">
@@ -399,6 +399,9 @@
                             نمایش <span id="showingRange">۰-۰</span> از <span id="totalCount">۰</span> مورد
                             <span id="dbSyncInfo" style="margin-right: 15px;"></span>
                         </div>
+                        <button class="btn btn-warning" onclick="refreshData()" style="margin-left: 10px;">
+                            <i class="fas fa-sync-alt"></i> به‌روزرسانی
+                        </button>
                         <button class="btn btn-primary" onclick="showAddForm()">
                             <i class="fas fa-plus" style="margin-left: 8px;"></i> ثبت درخواست جدید
                         </button>
@@ -1006,7 +1009,7 @@
                 padding: 15px 25px;
                 border-radius: 8px;
                 z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                 font-family: 'Sahel', sans-serif;
                 font-size: 14px;
                 display: flex;
@@ -1195,12 +1198,25 @@
             try {
                 showLoading(true, 'در حال بارگذاری داده‌ها از پایگاه داده...');
 
-                const d1Requests = await d1API.getAllRequests();
+                // پاک کردن کش برای دریافت داده‌های تازه
+                d1API.clearCache();
+                
+                const d1Requests = await d1API.getAllRequests(true); // force refresh
 
                 if (d1Requests && Array.isArray(d1Requests)) {
                     requests = d1Requests;
+                    console.log('📥 داده‌های دریافتی:', requests.length, 'مورد');
+                    
+                    // مرتب‌سازی براساس تاریخ ایجاد (جدیدترین اول)
+                    requests.sort((a, b) => {
+                        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+                    });
+                    
                     updateStats();
                     renderTable();
+
+                    // به‌روزرسانی وضعیت اتصال
+                    updateConnectionStatus(true);
 
                     if (requests.length > 0) {
                         showMessage('success', `✅ ${requests.length} درخواست از پایگاه داده بارگذاری شد`);
@@ -1208,26 +1224,52 @@
                         showMessage('info', '✅ اتصال برقرار است. هنوز درخواستی ثبت نشده است.');
                     }
 
-                    // به‌روزرسانی وضعیت اتصال
-                    document.getElementById('syncStatus').className = 'sync-status online';
-                    document.getElementById('statusText').textContent = 'آنلاین - متصل به D1';
                 } else {
                     throw new Error('فرمت داده دریافتی معتبر نیست');
                 }
 
             } catch (error) {
-                console.error('خطای کامل در بارگذاری:', error);
+                console.error('🚨 خطای کامل در بارگذاری:', error);
+                
+                // حالت آفلاین
                 requests = [];
                 updateStats();
                 renderTable();
-
-                // به‌روزرسانی وضعیت اتصال
-                document.getElementById('syncStatus').className = 'sync-status offline';
-                document.getElementById('statusText').textContent = 'آفلاین - ' + error.message;
-
+                updateConnectionStatus(false, error.message);
+                
                 showMessage('warning', '⚠️ ' + error.message);
             } finally {
                 showLoading(false);
+            }
+        }
+
+        // تابع کمکی برای به‌روزرسانی وضعیت اتصال
+        function updateConnectionStatus(isConnected, errorMessage = '') {
+            const syncStatus = document.getElementById('syncStatus');
+            const statusText = document.getElementById('statusText');
+            
+            if (isConnected) {
+                syncStatus.className = 'sync-status online';
+                statusText.innerHTML = '<i class="fas fa-database"></i> آنلاین - متصل به دیتابیس';
+                
+                // به‌روزرسانی اطلاعات پایگاه داده
+                const dbCount = document.getElementById('dbCount');
+                if (dbCount) {
+                    dbCount.innerHTML = `<span class="status-online">
+                        <i class="fas fa-database"></i> ${requests.length} رکورد از آنلاین
+                    </span>`;
+                }
+                
+            } else {
+                syncStatus.className = 'sync-status offline';
+                statusText.innerHTML = `<i class="fas fa-exclamation-triangle"></i> آفلاین - ${errorMessage}`;
+                
+                const dbCount = document.getElementById('dbCount');
+                if (dbCount) {
+                    dbCount.innerHTML = `<span class="status-offline">
+                        <i class="fas fa-exclamation-triangle"></i> عدم اتصال به D1
+                    </span>`;
+                }
             }
         }
 
@@ -1241,10 +1283,6 @@
             document.getElementById('collectingRequests').textContent = persianDateTime.toPersianNumbers(collecting);
             document.getElementById('processingRequests').textContent = persianDateTime.toPersianNumbers(processing);
             document.getElementById('completedRequests').textContent = persianDateTime.toPersianNumbers(completed);
-
-            // نمایش وضعیت پایگاه داده
-            const dbCount = document.getElementById('dbCount');
-            dbCount.innerHTML = `<span class="status-online"><i class="fas fa-database"></i> متصل به Cloudflare D1</span>`;
         }
 
         // ==================== فرم درخواست ====================
@@ -1792,52 +1830,58 @@
         }
 
         // ==================== رویدادهای منو ====================
-        document.getElementById('logout').addEventListener('click', function () {
+        function handleLogout() {
             localStorage.removeItem('isAuthenticated');
             localStorage.removeItem('loginTime');
             localStorage.removeItem('api_token');
             window.location.href = 'index.html';
-            return false;
-        });
+        }
 
-        document.getElementById('addNew').addEventListener('click', function (e) {
-            e.preventDefault();
-            showAddForm();
-            return false;
-        });
+        const elements = [
+            { id: 'logout', event: 'click' },
+            { id: 'addNew', event: 'click' },
+            { id: 'viewAll', event: 'click' },
+            { id: 'dashboard', event: 'click' },
+            { id: 'backupBtn', event: 'click' },
+            { id: 'exportBtn', event: 'click' }
+            // { id: 'publishBtn', event: 'click' } // اگر کامنت است حذف کنید
+        ];
 
-        document.getElementById('viewAll').addEventListener('click', function (e) {
-            e.preventDefault();
-            if (document.getElementById('requestForm').style.display === 'block') {
-                cancelEdit();
+        elements.forEach(item => {
+            const element = document.getElementById(item.id);
+            if (element) {
+                element.addEventListener(item.event, function(e) {
+                    e.preventDefault();
+                    // اجرای تابع مربوطه
+                    switch(item.id) {
+                        case 'logout':
+                            handleLogout();
+                            break;
+                        case 'addNew':
+                            showAddForm();
+                            break;
+                        case 'viewAll':
+                            if (document.getElementById('requestForm').style.display === 'block') {
+                                cancelEdit();
+                            }
+                            currentPage = 1;
+                            renderTable();
+                            break;
+                        case 'dashboard':
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            break;
+                        case 'backupBtn':
+                            createBackup();
+                            break;
+                        case 'exportBtn':
+                            exportToExcel();
+                            break;
+                    }
+                    return false;
+                });
+            } else {
+                console.log(`⚠️ Element #${item.id} not found`);
             }
-            currentPage = 1;
-            renderTable();
-            return false;
-        });
-
-        document.getElementById('dashboard').addEventListener('click', function (e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            return false;
-        });
-
-        document.getElementById('publishBtn').addEventListener('click', function (e) {
-            e.preventDefault();
-            publishRequests();
-            return false;
-        });
-
-        document.getElementById('backupBtn').addEventListener('click', function (e) {
-            e.preventDefault();
-            createBackup();
-            return false;
-        });
-
-        document.getElementById('exportBtn').addEventListener('click', function (e) {
-            e.preventDefault();
-            exportToExcel();
-            return false;
         });
 
         // ==================== راه‌اندازی اولیه ====================
@@ -1846,48 +1890,67 @@
                 updateAllDateTime();
                 setInterval(updateAllDateTime, 1000);
 
-                // تست اتصال اولیه
+                console.log('🚀 راه‌اندازی اپلیکیشن...');
+
+                // 1. تست اتصال اولیه به API
                 const testResult = await d1API.testConnection();
                 console.log('🔗 تست اتصال:', testResult);
 
                 if (!testResult.success) {
-                    showMessage('warning', '⚠️ خطا در اتصال به سرور API');
+                    showMessage('warning', '⚠️ اتصال به سرور API با مشکل مواجه است');
+                    updateConnectionStatus(false, testResult.message);
+                } else {
+                    updateConnectionStatus(true);
                 }
 
-                // بررسی توکن
+                // 2. بررسی و احراز هویت خودکار
                 let token = localStorage.getItem('api_token');
                 if (!token) {
                     console.log('🔑 توکن وجود ندارد، در حال لاگین...');
                     const loginResult = await d1API.login('admin123');
                     if (!loginResult.success) {
                         showMessage('error', 'خطا در احراز هویت: ' + loginResult.message);
+                        updateConnectionStatus(false, 'احراز هویت ناموفق');
                         return;
                     }
                     showMessage('success', '✅ احراز هویت موفقیت‌آمیز بود');
+                    updateConnectionStatus(true);
                 }
 
-                console.log('🚀 راه‌اندازی اپلیکیشن...');
-
+                // 3. بارگذاری اولیه داده‌ها
                 await loadRequests();
 
-                // به‌روزرسانی خودکار هر 5 دقیقه
+                // 4. به‌روزرسانی خودکار هر 30 ثانیه
                 setInterval(async () => {
                     try {
                         await loadRequests();
+                        console.log('🔄 به‌روزرسانی خودکار انجام شد');
                     } catch (error) {
                         console.error('خطا در به‌روزرسانی خودکار:', error);
                     }
-                }, 300000);
+                }, 300000); // هر 30 ثانیه
 
                 console.log('✅ اپلیکیشن راه‌اندازی شد');
 
             } catch (error) {
                 console.error('🚨 خطا در راه‌اندازی:', error);
                 showMessage('error', 'خطا در راه‌اندازی اپلیکیشن: ' + error.message);
+                updateConnectionStatus(false, 'خطای راه‌اندازی');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', initializeApp);
+        // تضمین اجرای صحیح event listeners بعد از لود DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded, initializing app...');
+            initializeApp();
+        });
+
+        // Fallback برای مواردی که DOMContentAlready fired شده
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            setTimeout(initializeApp, 100);
+        }
     </script>
 </body>
 
